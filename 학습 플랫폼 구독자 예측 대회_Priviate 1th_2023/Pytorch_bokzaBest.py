@@ -60,10 +60,8 @@ test_org = pd.read_csv('new_test.csv')
 train_df = train_org.copy()
 test_df = test_org.copy()
 
-categorical_features = list(train_df.dtypes[train_df.dtypes == "object"].index)
-
-
 # Target Encoding
+categorical_features = list(train_df.dtypes[train_df.dtypes == "object"].index)
 for i in categorical_features:
     le = TargetEncoder(cols=[i])
     train_df[i] = le.fit_transform(train_df[i], train_df['target'])
@@ -116,7 +114,7 @@ optimizer = optim.AdamW(model.parameters(), lr=0.0005)
 
 if __name__ == '__main__':
     # 학습
-    num_epochs = 100
+    num_epochs = 1
     print_interval = 10
     for epoch in range(num_epochs):
         model.train()
