@@ -5,10 +5,19 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 train = pd.read_csv('train.csv')
+
+plt.rcParams['font.family'] = 'Malgun Gothic'
+sns.barplot(x = train['대출등급'].value_counts().sort_index().index, y = train['대출등급'].value_counts().sort_index(),
+            palette='Set2')
+plt.grid(True, alpha=0.6, line_style='--')
+plt.ylabel('Count')
+plt.xlabel('대출등급')
+plt.tight_layout()
+plt.show()
+
 train.sort_values('대출등급', inplace=True)
 train.pop('ID')
 train.set_index('대출등급', inplace=True)
-
 
 # 대출 등급에 따른 서브플롯 그리기
 loan_grades = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
@@ -20,7 +29,9 @@ for i, grade in enumerate(loan_grades):
     col = i % 4
     # sns.histplot(train.loc[grade, '대출금액'], bins=20, ax=axes[row, col], kde=True)
     sns.histplot(train.loc[grade, '대출금액'], bins=20, ax=axes[row, col], kde=True, stat="density", common_norm=False)
-    axes[row, col].set_title(f'Loan Grade {grade}')
+    axes[row, col].set_title(f'{grade}')
+axes.flatten()[-1].remove()
+plt.suptitle('등급별 대출금액 분포', fontsize=16)
 plt.tight_layout()
 plt.show()
 
